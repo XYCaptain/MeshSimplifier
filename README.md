@@ -1,1 +1,3 @@
 # MeshSimplifier
+Refrence Unity-Technologies/AutoLOD
+Refrence RayTracingInDotNet

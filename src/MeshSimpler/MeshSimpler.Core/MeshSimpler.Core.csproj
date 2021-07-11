@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;net6.0;</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
+    <PackageReference Include="ComputeSharp" Version="2.0.0-alpha.3" />
+    <PackageReference Include="IxMilia.Stl" Version="0.1.2" />
+    <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
+    <PackageReference Include="Silk.NET" Version="2.4.0" />
+    <PackageReference Include="Silk.NET.Assimp" Version="2.4.0" />
+    <PackageReference Include="Silk.NET.Direct3D12" Version="2.4.0" />
+    <PackageReference Include="VJson" Version="0.9.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GLTF\" />
+  </ItemGroup>
+
+</Project>
