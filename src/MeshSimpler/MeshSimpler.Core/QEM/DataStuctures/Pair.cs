@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace qem
+namespace QEM
 {
     public class Pair
     {
@@ -44,7 +44,7 @@ namespace qem
             for (int i = 0; i < n; i++)
             {
                 int frac = i * (1 / n);
-                var v = qem.Vector.Lerp(a, b, frac);
+                var v = QEM.Vector.Lerp(a, b, frac);
                 var e = A.Quadric.QuadricError(v);
                 if (bestE < 0 || e < bestE)
                 {

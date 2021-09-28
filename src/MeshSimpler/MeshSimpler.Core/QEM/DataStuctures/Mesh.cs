@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 
-namespace qem
+
+namespace QEM
 {
     public struct Mesh
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace qem
+namespace QEM
 {
     public static class Extensions
     {

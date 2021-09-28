@@ -1,4 +1,4 @@
-namespace qem
+namespace QEM
 {
     public struct Triangle
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IxMilia.Stl;
 
-namespace qem
+namespace QEM
 {
     public static class STLParser
     {

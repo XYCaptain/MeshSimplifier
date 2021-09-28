@@ -1,5 +1,6 @@
-﻿using MeshSimpler.Core.Sence;
-using qem;
+﻿using MeshSimpler.Core.Extensions;
+using MeshSimpler.Core.Sence;
+using QEM;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,8 +10,34 @@ using VGltf;
 
 namespace MeshSimpler.Core.Sence
 {
-    public class QemLoder
+    public class QemHelper
     {
+        public static Mesh Simplify(Mesh originalMesh, int targetCount)
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            PrintMeshInfo("Input", originalMesh.vertexCount, originalMesh.trisCount);
+            float t1 = stopwatch.ElapsedMilliseconds;
+
+            Mesh simplifiedMesh = originalMesh.Simplify(targetCount);
+            float t2 = stopwatch.ElapsedMilliseconds - t1;
+
+            PrintMeshInfo("Output", simplifiedMesh.vertexCount, simplifiedMesh.trisCount);
+            float t3 = stopwatch.ElapsedMilliseconds - t2;
+
+            Console.WriteLine();
+            Console.WriteLine($"Execution details [ms]." +
+                $"\nOverall time: {t1 + t2 + t3}" +
+                $"\n STL Loading: {t1}" +
+                $"\n QEM Algorithm: {t2}" +
+                $"\n STL Saving: {t3}");
+
+            return simplifiedMesh;
+        }
+        public static Assimp.Mesh Simplify(Assimp.Mesh originalMesh, int targetCount)
+        {
+            return Simplify(originalMesh.ToQemMesh(), targetCount).ToAiMesh();
+        }
         public static void RunSimplifyByLevel(byte[] file, string importtype, string outpath, int lodparmal)
         {
             var model = Model.LoadModel(file, importtype);
@@ -83,7 +110,7 @@ namespace MeshSimpler.Core.Sence
         }
         private static void RunSimplify(Model Model, int targetCount, string outputPath = null, string fileextsion = "glb", string exporttype = "glb2")
         {
-            qem.Mesh originalMesh = new qem.Mesh();
+            QEM.Mesh originalMesh = new QEM.Mesh();
             originalMesh.tris = new Triangle[Model.Indices.Count / 3];
             List<Vector> vectors = Model.Vertices.Select(x => new Vector(x.Position.X, x.Position.Y, x.Position.Z)).ToList();
 
@@ -96,35 +123,18 @@ namespace MeshSimpler.Core.Sence
                     v3 = vectors[(int)Model.Indices[i * 3 + 2]],
                 };
             }
-            Run(originalMesh, targetCount, $"{outputPath}.{fileextsion}", exporttype);
+
+            Simplify(originalMesh, targetCount, $"{outputPath}.{fileextsion}", exporttype);
         }
-        private static void Run(Mesh originalMesh, int targetCount, string outputPath, string exporttype)
+        private static void Simplify(Mesh originalMesh, int targetCount, string outputPath, string exporttype)
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-
-            PrintMeshInfo("Input", originalMesh.vertexCount, originalMesh.trisCount);
-            float t1 = stopwatch.ElapsedMilliseconds;
-
-            Mesh simplifiedMesh = originalMesh.Simplify(targetCount);
-            float t2 = stopwatch.ElapsedMilliseconds - t1;
-
-            //STLParser.SaveSTL(simplifiedMesh, outputPath);
-            SaveAs(simplifiedMesh, outputPath, exporttype);
-            PrintMeshInfo("Output", simplifiedMesh.vertexCount, simplifiedMesh.trisCount);
-            float t3 = stopwatch.ElapsedMilliseconds - t2;
-
-            Console.WriteLine();
-            Console.WriteLine($"Execution details [ms]." +
-                $"\nOverall time: {t1 + t2 + t3}" +
-                $"\n STL Loading: {t1}" +
-                $"\n QEM Algorithm: {t2}" +
-                $"\n STL Saving: {t3}");
+            SaveAs(Simplify(originalMesh, targetCount), outputPath, exporttype);
         }
-        private static void SaveAs(qem.Mesh simplifiedMesh, string outputPath, string exporttype)
+        private static void SaveAs(Mesh simplifiedMesh, string outputPath, string exporttype)
         {
             Assimp.Scene sc = new Assimp.Scene();
             sc.Materials.Add(new Assimp.Material());
-     
+
             var aimesh = new Assimp.Mesh();
             for (int i = 0; i < simplifiedMesh.trisCount; i++)
             {

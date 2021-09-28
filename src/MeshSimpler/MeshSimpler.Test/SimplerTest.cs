@@ -79,12 +79,12 @@ namespace MeshSimpler.Test
         [Test]
         public void SimplyMesh()
         {
-            QemLoder.RunSimplify(@"C:\Users\Liuxinyu\Desktop\MyQem-master\$ab5a154f-3546-409a-b77d-c593165859a9.glb", 10);
+            QemHelper.RunSimplify(@"C:\Users\Liuxinyu\Desktop\MyQem-master\$ab5a154f-3546-409a-b77d-c593165859a9.glb", 10);
         }
         [Test]
         public void SimplyMesh3()
         {
-            QemLoder.RunSimplifyByLevel(@"C:\Users\Liuxinyu\Desktop\MyQem-master\$ab5a154f-3546-409a-b77d-c593165859a9.glb", 1);
+            QemHelper.RunSimplifyByLevel(@"C:\Users\Liuxinyu\Desktop\MyQem-master\$ab5a154f-3546-409a-b77d-c593165859a9.glb", 1);
         }
     }
 }

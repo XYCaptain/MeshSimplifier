@@ -1,5 +1,5 @@
 using System;
-namespace qem
+namespace QEM
 {
     public struct Vector
     {
