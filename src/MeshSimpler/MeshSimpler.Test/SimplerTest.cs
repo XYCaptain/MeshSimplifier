@@ -79,7 +79,7 @@ namespace MeshSimpler.Test
         [Test]
         public void SimplyMesh()
         {
-            QemHelper.RunSimplify(@"C:\Users\Liuxinyu\Desktop\MyQem-master\$ab5a154f-3546-409a-b77d-c593165859a9.glb", 10);
+            QemHelper.RunSimplify(@"C:\TilesPublishServer\tiles\TestExport_Glb_Opt.glb", 10);
         }
         [Test]
         public void SimplyMesh3()

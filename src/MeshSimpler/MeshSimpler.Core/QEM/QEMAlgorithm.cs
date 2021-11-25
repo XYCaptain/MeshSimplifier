@@ -105,6 +105,16 @@ namespace QEM
 
                 p.Removed = true;
 
+                if (!((vertexFaces.ContainsKey(p.A) && vertexFaces[p.A].Count > 2) || (vertexFaces.ContainsKey(p.B) && vertexFaces[p.B].Count > 2)))
+                {
+                    continue;
+                }
+
+                if (p.Length() > 1)
+                {
+                    continue;
+                }
+
                 //get distinct faces 
                 var distinctFaces = new HashSet<Face>();
                 if (vertexFaces.ContainsKey(p.A))
@@ -244,6 +254,7 @@ namespace QEM
 
                     var np = new Pair(a, b);
                     np.Error();
+
                     priorityQueue.Enqueue(np, np.CachedError);
 
                     vertexPairs.AppendEx(a, np);

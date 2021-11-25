@@ -14,6 +14,10 @@ namespace MeshSimpler.Core.Sence
     {
         public static Mesh Simplify(Mesh originalMesh, int targetCount)
         {
+            if (targetCount == 0)
+            {
+                targetCount = 1;
+            }
             Stopwatch stopwatch = Stopwatch.StartNew();
 
             PrintMeshInfo("Input", originalMesh.vertexCount, originalMesh.trisCount);
@@ -34,16 +38,19 @@ namespace MeshSimpler.Core.Sence
 
             return simplifiedMesh;
         }
+
         public static Assimp.Mesh Simplify(Assimp.Mesh originalMesh, int targetCount)
         {
             return Simplify(originalMesh.ToQemMesh(), targetCount).ToAiMesh();
         }
+
         public static void RunSimplifyByLevel(byte[] file, string importtype, string outpath, int lodparmal)
         {
             var model = Model.LoadModel(file, importtype);
             var totalcount = (int)(model.Indices.Count / 3);
             RunSimplify(model, (int)(totalcount * lodparmal / 16f), @$"{outpath}_LOD_{lodparmal}");
         }
+
         public static void RunSimplifyByLevel(string path, int lodparmal)
         {
             FileInfo fi = new FileInfo(path);
@@ -52,6 +59,7 @@ namespace MeshSimpler.Core.Sence
             var totalcount = (int)(model.Indices.Count / 3);
             RunSimplify(model, (int)(totalcount * lodparmal / 16f), @$"{outpath}\{fi.Name.Replace(fi.Extension, "")}_LOD_{lodparmal}");
         }
+
         public static void RunSimplify(byte[] file, string importtype, string outpath, int maxlodlevel)
         {
             var model = Model.LoadModel(file, importtype);

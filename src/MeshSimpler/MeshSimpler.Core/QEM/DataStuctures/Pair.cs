@@ -87,5 +87,10 @@ namespace QEM
                 return new Key(b.Vector, a.Vector);
             }
         }
+
+        public double Length()
+        {
+            return (A.Vector - B.Vector).Length;
+        }
     }
 }
